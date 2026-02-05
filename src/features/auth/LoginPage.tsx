@@ -1,12 +1,14 @@
 import { type JSX } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BrandMark } from "./BrandMark";
 import axios from "axios";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";
+import "../../services/axiosDef";
+import axiosDef, { axiosLogin } from "../../services/axiosDef";
 
 const loginSchema = z.object({
   email: z.email("E-mail inválido").min(1, "O e-mail é obrigatório"),
@@ -15,6 +17,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginPage(): JSX.Element {
+  let navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,19 +30,15 @@ export function LoginPage(): JSX.Element {
 
   const { toast, show, hide } = useToast();
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080/api/",
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      const response = await api.post("users/login", data);
+      const response = await axiosDef.post("api/users/login", data);
 
       show("Usuário logado com sucesso!");
       reset();
-
+      navigate("/product/list")
+      const jwtToken = response.data.token;
+      setCookie('jwt-token', jwtToken, 1); // Set the cookie for 1 day
 
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
@@ -117,4 +116,9 @@ export function LoginPage(): JSX.Element {
       </div>
     </div >
   );
+}
+function setCookie(name: string, value: any, days: number) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 }

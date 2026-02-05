@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import type { JSX } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import z, { email } from "zod";
@@ -7,9 +6,10 @@ import { BrandMark } from "../auth/BrandMark";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";
+import axiosDef from "../../services/axiosDef";
 
 const registerSchema = z.object({
-  nome: z.string().min(3, "O nome completo deve ser informado"),
+  name: z.string().min(3, "O nome completo deve ser informado"),
   email: z.email("E-mail inválido").min(1, "O e-mail é obrigatório"),
   password: z.string().min(8, "A senha deve ter pelo menos 8 caracteres"),
 });
@@ -29,32 +29,20 @@ export function RegisterPage(): JSX.Element {
 
   const { toast, show, hide } = useToast();
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080/api/",
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       const registerData = {
+        "name": data.name,
         "email": data.email,
         "password": data.password,
         "role": "CLIENTE"
       }
-      const response = await api.post("users/register", registerData);
+      const response = await axiosDef.post("users/register", registerData);
       show("Usuario cadastrado com sucesso");
       reset();
       navigate("/login")
-
     } catch (err: any) {
-      if (axios.isAxiosError(err) && err.response?.status === 401) {
-        setError("email", { type: "manual", message: "E-mail ou senha invalidos." });
-        setError("password", { type: "manual", message: " " })
-        show("E-mail ou senha inválidos.", "error");
-      } else {
-        show("Erro ao cadastrar usuario", "error");
-      }
+      show("Erro ao cadastrar usuario", "error");
     }
     return;
   };
@@ -75,7 +63,7 @@ export function RegisterPage(): JSX.Element {
 
           <label className="block text-sm font-medium text-gray-700">Nome Completo</label>
           <input
-            {...register("nome")}
+            {...register("name")}
             type="text"
             placeholder="Digite seu nome completo"
             className={`mt-1 mb-1 w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 ${errors.email ? "border-red-500 focus:ring-red-200" : "focus:ring-blue-500"
