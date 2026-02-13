@@ -1,7 +1,7 @@
 import { type JSX } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { BrandMark } from "./BrandMark";
+import { BrandMark } from "../../components/BrandMark";
 import axios from "axios";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,7 +58,7 @@ export function LoginPage(): JSX.Element {
       <div className="sm:flex-row">
         <BrandMark />
       </div>
-      <div className="flex justify-center items-center flex-1 py-10 px-6">
+      <div className="flex justify-center items-center flex-1 py-10 px-6" >
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full max-w-sm rounded-lg bg-white p-6 shadow"

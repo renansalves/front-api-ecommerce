@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { JSX } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import z, { email } from "zod";
-import { BrandMark } from "../auth/BrandMark";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import z from "zod";
+import { BrandMark } from "../../components/BrandMark";
+import { Link, useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";
 import axiosDef from "../../services/axiosDef";
@@ -21,7 +21,6 @@ export function RegisterPage(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
     reset
   } = useForm<LoginFormData>({
     resolver: zodResolver(registerSchema),
@@ -37,7 +36,7 @@ export function RegisterPage(): JSX.Element {
         "password": data.password,
         "role": "CLIENTE"
       }
-      const response = await axiosDef.post("users/register", registerData);
+      await axiosDef.post("users/register", registerData);
       show("Usuario cadastrado com sucesso");
       reset();
       navigate("/login")
