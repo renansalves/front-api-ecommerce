@@ -1,4 +1,3 @@
-// src/features/category/category.api.ts
 import { axiosDef } from "../../services/axiosDef";
 import type { CategoryPage } from "./CategoryType";
 

@@ -1,4 +1,3 @@
-// src/services/axiosDef.tsx
 import axios, { type AxiosResponseTransformer } from "axios";
 
 const BASE_URL = "http://localhost:8080";
@@ -35,9 +34,8 @@ export const axiosLogin = axios.create({
   baseURL: BASE_URL,
 });
 
-// --- Interceptor de requisição: adiciona Authorization se houver cookie ---
 axiosDef.interceptors.request.use((config) => {
-  const token = getCookie("jwt-token"); // nome do cookie que você já usa no Login
+  const token = getCookie("jwt-token");
   if (token && !config.headers?.Authorization) {
     config.headers = {
       ...config.headers,
@@ -47,12 +45,10 @@ axiosDef.interceptors.request.use((config) => {
   return config;
 });
 
-// --- Interceptor de resposta (opcional): tratamento de 401 ---
 axiosDef.interceptors.response.use(
   (resp) => resp,
   (error) => {
     if (error?.response?.status === 401) {
-      // Ex.: limpar cookie e redirecionar
       document.cookie = "jwt-token=; Max-Age=0; path=/";
       window.location.href = "/login";
     }

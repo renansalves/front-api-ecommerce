@@ -2,7 +2,6 @@ import type { FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthFromCookie } from "../hooks/useAuthFromCoockies";
 
-// Se usa Heroicons:
 import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
@@ -12,7 +11,7 @@ import {
 type BrandMarkProps = {
   onSearch?: (term: string) => void;
   cartCount?: number;
-  tokenCookieName?: string; // default = "jwt-token"
+  tokenCookieName?: string;
 };
 
 export function BrandMark({
@@ -24,7 +23,6 @@ export function BrandMark({
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Considera somente a lista; ajuste se tiver subrotas
   const isProductList =
     location.pathname === "/product/list" ||
     location.pathname.startsWith("/product/list/");
@@ -40,7 +38,6 @@ export function BrandMark({
     if (onSearch) {
       onSearch(q);
     } else {
-      // fallback: reflete na URL para permitir share/refresh
       navigate(`/product/list?q=${encodeURIComponent(q)}`);
     }
   }

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export type FilterValues = {
-  name: string;         // pode ser usado pela busca global (header)
-  categoryId: string;   // select/radio
+  name: string;
+  categoryId: string;
   minPrice: string;
   maxPrice: string;
 };
@@ -35,7 +35,6 @@ export function Filter({ initial, categories = [], onChange, debounceMs = 400 }:
     };
   }, [debounceMs]);
 
-  // auto-dispara ao digitar (útil p/ min/max); botão “Filtrar” também chama manualmente
   useEffect(() => {
     debounced(values);
   }, [values, debounced]);

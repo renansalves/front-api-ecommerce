@@ -3,7 +3,6 @@ export function centsStringToBRL(
   currency = "BRL",
   locale = "pt-BR"
 ): string {
-  // Se vier null/undefined, mostra traço
   if (centsInput === null || centsInput === undefined) {
     return "—";
   }

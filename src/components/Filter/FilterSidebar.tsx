@@ -1,10 +1,10 @@
-// src/components/Filter/FilterSidebar.tsx
+
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export type FilterValues = {
-  categoryId: string;   // id da categoria (string no select/radio)
-  minPrice: string;     // em reais (ex. "100")
-  maxPrice: string;     // em reais (ex. "500")
+  categoryId: string;
+  minPrice: string;
+  maxPrice: string;
 };
 
 type CategoryOption = { id: number | string; name: string };
@@ -12,8 +12,8 @@ type CategoryOption = { id: number | string; name: string };
 type Props = {
   initial?: Partial<FilterValues>;
   categories: CategoryOption[];
-  onChange: (values: FilterValues) => void;   // dispara filtro (debounced e via botão)
-  debounceMs?: number;                        // p/ digitação em preço
+  onChange: (values: FilterValues) => void;
+  debounceMs?: number;
   className?: string;
 };
 
@@ -30,11 +30,11 @@ export function FilterSidebar({
     maxPrice: initial?.maxPrice ?? "",
   });
 
-  // Mantém sempre a última referência de onChange
+
   const onChangeRef = useRef(onChange);
   useEffect(() => { onChangeRef.current = onChange; }, [onChange]);
 
-  // Debounce de digitação (min/max)
+
   const debounced = useMemo(() => {
     let t: number | undefined;
     return (v: FilterValues) => {
@@ -65,7 +65,6 @@ export function FilterSidebar({
         Filtros
       </h2>
 
-      {/* Categorias */}
       <section aria-labelledby="filter-categories">
         <h3
           id="filter-categories"
@@ -107,7 +106,6 @@ export function FilterSidebar({
         </div>
       </section>
 
-      {/* Faixa de preço */}
       <section aria-labelledby="filter-price-range">
         <h3 id="filter-price-range" className="mb-2 text-sm font-semibold text-gray-900">
           Faixa de Preço
@@ -152,7 +150,6 @@ export function FilterSidebar({
         </div>
       </section>
 
-      {/* Ações */}
       <div className="mt-2 flex items-center gap-2">
         <button
           type="button"

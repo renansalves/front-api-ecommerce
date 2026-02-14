@@ -38,7 +38,7 @@ export function LoginPage(): JSX.Element {
       reset();
       navigate("/product/list")
       const jwtToken = response.data.token;
-      setCookie('jwt-token', jwtToken, 1); // Set the cookie for 1 day
+      setCookie('jwt-token', jwtToken, 1);
 
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {

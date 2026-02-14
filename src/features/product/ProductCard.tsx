@@ -13,9 +13,9 @@ export function ProductCard({ product, categoryName, onAddToCart }: Props) {
   return (
     <div className="group relative flex flex-col rounded-xl border bg-white p-4 shadow-sm ring-1 ring-gray-200 transition hover:shadow-lg">
       {/* Imagem: a API ainda não traz; usamos um placeholder */}
-      <div className="mb-3 aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100">
+      <div className="mb-3 aspect-4/3 w-full overflow-hidden rounded-lg bg-gray-100">
         {/* Placeholder com gradiente */}
-        <div className="h-full w-full bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100" />
+        <div className="h-full w-full bg-linear-to-br from-gray-100 via-gray-200 to-gray-100" />
       </div>
 
       {/* “Marca”/categoria acima do nome, como no Figma */}

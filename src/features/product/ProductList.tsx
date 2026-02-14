@@ -4,7 +4,7 @@ import { fetchProducts, type ProductFilters } from "./Product";
 import type { Product, PageResponse } from "./ProductType";
 import { fetchCategories } from "../category/Category";
 import type { Category } from "../category/CategoryType";
-import { ProductCard } from "./ProductCard"; // usamos helper aqui também p/ chips
+import { ProductCard } from "./ProductCard";
 import { centsStringToBRL } from "./money";
 import { FilterSidebar, type FilterValues as SideBarValues } from "../../components/Filter/FilterSidebar";
 import { BrandMark } from "../../components/BrandMark";
@@ -25,7 +25,6 @@ export default function ProductList() {
   const [err, setErr] = useState<string | null>(null);
   const [categories, setCategories] = useState<Array<{ id: number; name: string }>>([]);
 
-  // carrega categorias do back
   useEffect(() => {
     let cancel = false;
     (async () => {
@@ -43,7 +42,6 @@ export default function ProductList() {
       categoryId: v.categoryId ? Number(v.categoryId) : undefined,
       minPrice: toNumberOrUndefined(v.minPrice),
       maxPrice: toNumberOrUndefined(v.maxPrice),
-      // name: ...  <- se for usar campo de busca global depois
     };
     setFilters((prev) => {
       const a = JSON.stringify(prev);
@@ -51,7 +49,6 @@ export default function ProductList() {
       return a === b ? prev : next;
     });
   }, []);
-  // handler estável + evita set igual
   const handleFilterChange = useCallback((v: SideBarValues) => {
     const next: ProductFilters = {
       categoryId: v.categoryId ? Number(v.categoryId) : undefined,
@@ -65,15 +62,12 @@ export default function ProductList() {
     });
   }, []);
 
-  // hash p/ detectar mudança real dos filtros
   const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
 
-  // resetar página quando filtros/tamanho mudarem
   useEffect(() => {
     setPage(0);
   }, [filtersKey, size]);
 
-  // buscar produtos
   useEffect(() => {
     let cancel = false;
     (async () => {
@@ -91,7 +85,6 @@ export default function ProductList() {
     return () => { cancel = true; };
   }, [page, size, filtersKey]);
 
-  // helpers de exibição
   const totalText = (data?.totalElements as unknown as string) ?? "0";
   const totalPagesText = (data?.totalPages as unknown as string) ?? "1";
 
@@ -113,9 +106,8 @@ export default function ProductList() {
   }
   const clearAll = () => setFilters({});
 
-  // paginação numérica (limitada) – quando totalPages for “absurdo”, mantém só anterior/próxima
   const safeTotalPages = Number(totalPagesText);
-  const showNumbers = Number.isFinite(safeTotalPages) && safeTotalPages <= 50; // limite prático
+  const showNumbers = Number.isFinite(safeTotalPages) && safeTotalPages <= 50;
   const pages = useMemo(() => {
     if (!showNumbers) return [];
     const current = (data?.number ?? page) + 1;
@@ -160,7 +152,6 @@ export default function ProductList() {
             <FilterSidebar
               categories={categories}
               onChange={handleSidebarChange}
-            // initial={{ categoryId: "", minPrice: "", maxPrice: "" }}
             />
           </div>
 
@@ -188,7 +179,6 @@ export default function ProductList() {
                           product={p}
                           categoryName={categoryMap.get(String(p.categoryId))}
                           onAddToCart={() => {
-                            // TODO: integrar carrinho (conforme "Evolução E-commerce")
                           }}
                         />
                       ))}
