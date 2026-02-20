@@ -19,11 +19,11 @@ export function centsStringToBRL(
     const integer = padded.slice(0, -2);
     const fractional = padded.slice(-2);
     const decimalStr = `${neg ? "-" : ""}${integer}.${fractional}`;
-    const n = Number(decimalStr); // agora é número pequeno com 2 casas
+    const n = Number(decimalStr);
     return new Intl.NumberFormat(locale, { style: "currency", currency }).format(n);
   }
 
-  const normalized = raw.replace(",", "."); // tolera vírgula decimal
+  const normalized = raw.replace(",", ".");
   const n = Number(normalized);
   if (!Number.isFinite(n)) {
     return "—";

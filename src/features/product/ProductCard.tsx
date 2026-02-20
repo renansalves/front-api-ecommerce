@@ -1,6 +1,6 @@
-
 import { centsStringToBRL } from "./money";
 import type { Product } from "./ProductType";
+import { addItemToCart } from "../cart/CartService"; // <— importa o serviço
 
 type Props = {
   product: Product;
@@ -18,33 +18,34 @@ export function ProductCard({ product, categoryName, onAddToCart }: Props) {
         <div className="h-full w-full bg-linear-to-br from-gray-100 via-gray-200 to-gray-100" />
       </div>
 
-      {/* “Marca”/categoria acima do nome, como no Figma */}
-      <span className="text-xs font-medium uppercase tracking-wide text-indigo-600">
-        {categoryName ?? "—"}
-      </span>
+      await addItemToCart({
+        productId: (product as any).id,
+        quantity,
+      });
 
-      {/* Nome (2 linhas máx.) */}
-      <h3
-        title={product.name}
-        className="mt-1 line-clamp-2 text-sm font-semibold text-gray-900"
-      >
-        {product.name}
-      </h3>
+      onAddToCart?.(product);
 
-      {/* Preço */}
+    } catch (e: any) {
+      console.error("Falha ao adicionar ao carrinho:", e?.message ?? e);
+    }
+  }
+
+  return (
+    <div className="rounded-lg border bg-white p-4 shadow-sm">
+      <div className="mb-3 aspect-square w-full rounded-md bg-gradient-to-br from-gray-100 to-gray-200" />
+      <div className="text-xs text-gray-500">{categoryName ?? "—"}</div>
+      <h4 className="mt-1 line-clamp-2 text-sm font-medium text-gray-900">{product.name}</h4>
       <div className="mt-2 text-base font-semibold text-gray-900">
-        {centsStringToBRL(product.priceCents, product.currency || "BRL")}
+        {centsStringToBRL(product.priceCents, (product as any).currency ?? "BRL")}
       </div>
-
-      {/* CTA */}
       <button
-        type="button"
-        onClick={() => onAddToCart?.(product)}
+        onClick={handleAddToCart}
         className="mt-3 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        Add ao carrinho
+        Adiciona ao carrinho
       </button>
     </div>
   );
 }
+
 export { centsStringToBRL };

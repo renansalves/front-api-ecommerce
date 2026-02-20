@@ -8,4 +8,3 @@ export async function fetchCategories(page = 0, size = 20): Promise<CategoryPage
   const { data } = await axiosDef.get<CategoryPage>(`/api/categories?${params.toString()}`);
   return data;
 }
-``

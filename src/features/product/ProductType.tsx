@@ -1,4 +1,3 @@
-// src/features/product/product.types.ts
 export type Product = {
   id: string;
   sku: string;

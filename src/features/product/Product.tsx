@@ -18,7 +18,7 @@ export async function fetchProducts(
   const params = new URLSearchParams();
   params.set("page", String(page));
   params.set("size", String(size));
-  if (filters.name) params.set("name", filters.name);
+  if (filters.name && filters.name.trim() !== "") params.set("name", filters.name.trim());
   if (filters.categoryId) params.set("categoryId", filters.categoryId);
   if (typeof filters.minPrice === "number") params.set("minPrice", String(filters.minPrice));
   if (typeof filters.maxPrice === "number") params.set("maxPrice", String(filters.maxPrice));
@@ -26,3 +26,5 @@ export async function fetchProducts(
   const { data } = await axiosDef.get<PageResponse<Product>>(`/api/products?${params.toString()}`);
   return data;
 }
+
+

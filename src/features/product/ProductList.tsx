@@ -7,6 +7,7 @@ import type { Category } from "../category/CategoryType";
 import { ProductCard } from "./ProductCard";
 import { centsStringToBRL } from "./money";
 import { FilterSidebar, type FilterValues as SideBarValues } from "../../components/Filter/FilterSidebar";
+import { addItemToCart } from "../cart/CartService";
 import { BrandMark } from "../../components/BrandMark";
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -120,6 +121,7 @@ export default function ProductList() {
 
   return (
     <div className="flex flex-col gap-8">
+
       <BrandMark
         onSearch={(q) => {
           setFilters((prev) => {
@@ -147,7 +149,6 @@ export default function ProductList() {
         </header>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Sidebar à esquerda (layout Figma) */}
           <div className="col-span-12 md:col-span-3">
             <FilterSidebar
               categories={categories}
@@ -155,10 +156,8 @@ export default function ProductList() {
             />
           </div>
 
-          {/* Conteúdo à direita (grid de cards) */}
           <div className="col-span-12 md:col-span-9">
             <section className="relative">
-              {/* overlay com blur durante loading (comportamento Figma) */}
               {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center backdrop-blur-sm">
                   <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
@@ -189,7 +188,6 @@ export default function ProductList() {
                     </div>
                   )}
 
-                  {/* Paginação resumida (mantém Anterior/Próxima) */}
                   <div className="mt-6 flex items-center justify-between">
                     <span className="text-sm text-gray-600">
                       Total: <strong>{(data?.totalElements as any) ?? "0"}</strong>

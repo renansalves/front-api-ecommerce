@@ -15,6 +15,7 @@ type BrandMarkProps = {
   onSearch?: (term: string) => void;
   cartCount?: number;
   tokenCookieName?: string;
+  userName?: string;
 };
 
 export function BrandMark({
@@ -25,7 +26,6 @@ export function BrandMark({
   const { isAuthenticated } = useAuthFromCookie(tokenCookieName);
   const location = useLocation();
   const navigate = useNavigate();
-
   const isProductList =
     location.pathname === "/product/list" ||
     location.pathname.startsWith("/product/list/");
