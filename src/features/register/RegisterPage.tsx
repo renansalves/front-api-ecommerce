@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { JSX } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import z from "zod";
-import { BrandMark } from "../../components/BrandMark";
+import { BrandMark } from "../../components/BrandMark_old";
 import { Link, useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";

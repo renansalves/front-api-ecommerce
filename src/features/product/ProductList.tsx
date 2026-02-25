@@ -8,7 +8,7 @@ import { ProductCard } from "./ProductCard";
 import { centsStringToBRL } from "./money";
 import { FilterSidebar, type FilterValues as SideBarValues } from "../../components/Filter/FilterSidebar";
 import { addItemToCart } from "../cart/CartService";
-import { BrandMark } from "../../components/BrandMark";
+import { BrandMark } from "../../components/BrandMark_old";
 
 const DEFAULT_PAGE_SIZE = 12;
 
